@@ -24,12 +24,12 @@ class SiteSettingSeeder extends Seeder
             'logo' => '/images/lkeu-rapi-logo.svg',
 
             // External Links
-            'repository_url' => 'https://github.com/laravel/livewire-starter-kit',
-            'documentation_url' => 'https://laravel.com/docs',
+            'repository_url' => 'https://github.com/sekadau-online/report',
+            'documentation_url' => 'https://github.com/sekadau-online/report/tree/main/docs',
             'primary_link_text' => 'Dokumentasi',
-            'primary_link_url' => 'https://laravel.com/docs',
+            'primary_link_url' => 'https://github.com/sekadau-online/report/tree/main/docs',
             'secondary_link_text' => 'Repository',
-            'secondary_link_url' => 'https://github.com/laravel/livewire-starter-kit',
+            'secondary_link_url' => 'https://github.com/sekadau-online/report',
 
             // Welcome Page
             'welcome_enabled' => '1',
