@@ -26,10 +26,6 @@ class SiteSettingSeeder extends Seeder
             // External Links
             'repository_url' => 'https://github.com/sekadau-online/report',
             'documentation_url' => 'https://github.com/sekadau-online/report/tree/main/docs',
-            'primary_link_text' => 'Dokumentasi',
-            'primary_link_url' => 'https://github.com/sekadau-online/report/tree/main/docs',
-            'secondary_link_text' => 'Repository',
-            'secondary_link_url' => 'https://github.com/sekadau-online/report',
 
             // Welcome Page
             'welcome_enabled' => '1',
@@ -37,6 +33,10 @@ class SiteSettingSeeder extends Seeder
             'welcome_description' => 'Sistem Laporan Keuangan yang Rapi dan Terorganisir. Kelola pemasukan dan pengeluaran dengan mudah, import/export data, dan pantau keuangan Anda.',
             'welcome_cta_text' => 'Mulai Sekarang',
             'welcome_cta_url' => '/login',
+            'welcome_primary_link_text' => 'Dokumentasi',
+            'welcome_primary_link_url' => 'https://github.com/sekadau-online/report/tree/main/docs',
+            'welcome_secondary_link_text' => 'Repository',
+            'welcome_secondary_link_url' => 'https://github.com/sekadau-online/report',
         ];
 
         foreach ($settings as $key => $value) {
