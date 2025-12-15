@@ -110,12 +110,14 @@ new class extends Component {
                                     <code class="text-xs bg-zinc-100 dark:bg-zinc-900 px-2 py-1 rounded truncate max-w-md">
                                         {{ $link->getShareUrl() }}
                                     </code>
-                                    <flux:button
-                                        size="xs"
-                                        variant="ghost"
-                                        icon="clipboard"
-                                        wire:click="copyLink({{ $link->id }})"
-                                    />
+                                    <flux:tooltip content="Salin Link">
+                                        <flux:button
+                                            size="xs"
+                                            variant="ghost"
+                                            icon="clipboard"
+                                            wire:click="copyLink({{ $link->id }})"
+                                        />
+                                    </flux:tooltip>
                                 </div>
                             </div>
 
@@ -147,11 +149,31 @@ new class extends Component {
         @endif
     </div>
 
+    {{-- Toast notification --}}
+    <div
+        x-data="{ show: false, message: '' }"
+        x-on:copy-success.window="show = true; message = $event.detail.message; setTimeout(() => show = false, 2000)"
+        x-show="show"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 translate-y-2"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100 translate-y-0"
+        x-transition:leave-end="opacity-0 translate-y-2"
+        x-cloak
+        class="fixed bottom-4 right-4 z-50 flex items-center gap-2 rounded-lg bg-green-600 px-4 py-3 text-sm font-medium text-white shadow-lg"
+    >
+        <flux:icon.check-circle class="size-5" />
+        <span x-text="message"></span>
+    </div>
+
     @script
     <script>
         $wire.on('copy-to-clipboard', ({ url }) => {
             navigator.clipboard.writeText(url).then(() => {
-                alert('Link berhasil disalin!');
+                window.dispatchEvent(new CustomEvent('copy-success', {
+                    detail: { message: 'Link berhasil disalin!' }
+                }));
             });
         });
     </script>
