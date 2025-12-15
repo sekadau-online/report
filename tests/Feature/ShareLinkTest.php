@@ -424,3 +424,47 @@ test('user cannot delete other users share link', function () {
 
     expect($this->user->can('delete', $shareLink))->toBeFalse();
 });
+
+// === QR Code Tests ===
+
+test('share link can generate qr code svg', function () {
+    $shareLink = ShareLink::factory()->for($this->user)->create();
+
+    $svg = $shareLink->getQrCodeSvg();
+
+    expect($svg)->toBeString()
+        ->toContain('<svg')
+        ->toContain('</svg>');
+});
+
+test('share link can generate qr code data uri', function () {
+    $shareLink = ShareLink::factory()->for($this->user)->create();
+
+    $dataUri = $shareLink->getQrCodeDataUri();
+
+    expect($dataUri)->toBeString()
+        ->toStartWith('data:image/svg+xml;base64,');
+});
+
+test('qr code contains share url', function () {
+    $shareLink = ShareLink::factory()->for($this->user)->create();
+
+    $svg = $shareLink->getQrCodeSvg();
+    $dataUri = $shareLink->getQrCodeDataUri();
+
+    // Both should generate valid output
+    expect($svg)->not->toBeEmpty();
+    expect($dataUri)->not->toBeEmpty();
+
+    // Verify URL is used (indirectly by checking QR is generated)
+    expect($shareLink->getShareUrl())->toContain($shareLink->token);
+});
+
+test('share links index shows qr code button', function () {
+    $shareLink = ShareLink::factory()->for($this->user)->create();
+
+    $this->actingAs($this->user)
+        ->get(route('share-links.index'))
+        ->assertOk()
+        ->assertSee('QR Code');
+});

@@ -169,4 +169,20 @@ class ShareLink extends Model
     {
         return route('share.view', $this->token);
     }
+
+    /**
+     * Get QR code as SVG string.
+     */
+    public function getQrCodeSvg(int $size = 200): string
+    {
+        return app(\App\Services\QrCodeService::class)->generateSvg($this->getShareUrl(), $size);
+    }
+
+    /**
+     * Get QR code as data URI for img src.
+     */
+    public function getQrCodeDataUri(int $size = 200): string
+    {
+        return app(\App\Services\QrCodeService::class)->generateDataUri($this->getShareUrl(), $size);
+    }
 }

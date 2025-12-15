@@ -118,6 +118,14 @@ new class extends Component {
                                             wire:click="copyLink({{ $link->id }})"
                                         />
                                     </flux:tooltip>
+                                    <flux:tooltip content="QR Code">
+                                        <flux:button
+                                            size="xs"
+                                            variant="ghost"
+                                            icon="qr-code"
+                                            x-on:click="$dispatch('open-qr-modal', { name: '{{ $link->name }}', url: '{{ $link->getShareUrl() }}', qrcode: '{{ $link->getQrCodeDataUri(250) }}' })"
+                                        />
+                                    </flux:tooltip>
                                 </div>
                             </div>
 
@@ -147,6 +155,73 @@ new class extends Component {
                 @endforeach
             </div>
         @endif
+    </div>
+
+    {{-- QR Code Modal --}}
+    <div
+        x-data="{ open: false, name: '', url: '', qrcode: '' }"
+        x-on:open-qr-modal.window="open = true; name = $event.detail.name; url = $event.detail.url; qrcode = $event.detail.qrcode"
+        x-on:keydown.escape.window="open = false"
+    >
+        <div
+            x-show="open"
+            x-transition:enter="transition ease-out duration-200"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-150"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+            x-on:click.self="open = false"
+            x-cloak
+        >
+            <div
+                x-show="open"
+                x-transition:enter="transition ease-out duration-200"
+                x-transition:enter-start="opacity-0 scale-95"
+                x-transition:enter-end="opacity-100 scale-100"
+                x-transition:leave="transition ease-in duration-150"
+                x-transition:leave-start="opacity-100 scale-100"
+                x-transition:leave-end="opacity-0 scale-95"
+                class="w-full max-w-sm rounded-xl bg-white dark:bg-zinc-800 p-6 shadow-xl"
+            >
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-zinc-900 dark:text-white" x-text="name"></h3>
+                    <flux:button size="sm" variant="ghost" icon="x-mark" x-on:click="open = false" />
+                </div>
+
+                <div class="flex flex-col items-center gap-4">
+                    <div class="rounded-lg bg-white p-4 shadow-sm border border-zinc-200">
+                        <img :src="qrcode" alt="QR Code" class="size-[250px]" />
+                    </div>
+
+                    <p class="text-xs text-zinc-500 dark:text-zinc-400 text-center break-all" x-text="url"></p>
+
+                    <div class="flex gap-2 w-full">
+                        <flux:button
+                            variant="primary"
+                            class="flex-1"
+                            icon="arrow-down-tray"
+                            x-on:click="
+                                const link = document.createElement('a');
+                                link.download = name + '-qrcode.svg';
+                                link.href = qrcode;
+                                link.click();
+                            "
+                        >
+                            {{ __('Download') }}
+                        </flux:button>
+                        <flux:button
+                            variant="ghost"
+                            class="flex-1"
+                            x-on:click="open = false"
+                        >
+                            {{ __('Tutup') }}
+                        </flux:button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     {{-- Toast notification --}}
