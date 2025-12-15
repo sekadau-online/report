@@ -36,14 +36,14 @@ class SiteSetting extends Model
     public static array $defaults = [
         // Branding
         'site_name' => [
-            'value' => 'Laravel Starter Kit',
+            'value' => 'LKEU RAPI',
             'type' => 'string',
             'group' => 'branding',
             'label' => 'Nama Situs',
             'description' => 'Nama aplikasi yang ditampilkan di sidebar dan browser',
         ],
         'site_title' => [
-            'value' => 'Laravel',
+            'value' => 'LKEU RAPI',
             'type' => 'string',
             'group' => 'branding',
             'label' => 'Judul Halaman',
@@ -158,7 +158,7 @@ class SiteSetting extends Model
      */
     public static function getValue(string $key, mixed $default = null): mixed
     {
-        $cacheKey = self::CACHE_PREFIX . $key;
+        $cacheKey = self::CACHE_PREFIX.$key;
 
         return Cache::remember($cacheKey, now()->addDay(), function () use ($key, $default) {
             $setting = self::where('key', $key)->first();
@@ -200,7 +200,7 @@ class SiteSetting extends Model
         );
 
         // Clear cache
-        Cache::forget(self::CACHE_PREFIX . $key);
+        Cache::forget(self::CACHE_PREFIX.$key);
         Cache::forget(self::CACHE_ALL_KEY);
 
         return $setting;
@@ -276,7 +276,7 @@ class SiteSetting extends Model
     public static function clearCache(): void
     {
         foreach (array_keys(self::$defaults) as $key) {
-            Cache::forget(self::CACHE_PREFIX . $key);
+            Cache::forget(self::CACHE_PREFIX.$key);
         }
         Cache::forget(self::CACHE_ALL_KEY);
     }

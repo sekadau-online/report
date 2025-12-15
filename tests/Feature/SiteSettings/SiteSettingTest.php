@@ -22,7 +22,7 @@ describe('SiteSetting Model', function () {
     it('can get a setting value with default', function () {
         $value = SiteSetting::getValue('site_name');
 
-        expect($value)->toBe('Laravel Starter Kit');
+        expect($value)->toBe('LKEU RAPI');
     });
 
     it('can set a setting value', function () {
@@ -83,7 +83,7 @@ describe('SiteSettingService', function () {
     it('can get a setting', function () {
         $service = new SiteSettingService;
 
-        expect($service->get('site_name'))->toBe('Laravel Starter Kit');
+        expect($service->get('site_name'))->toBe('LKEU RAPI');
     });
 
     it('can set a setting', function () {
@@ -147,7 +147,7 @@ describe('SiteSettingService', function () {
 
 describe('Site Settings Helper Functions', function () {
     it('can use site_setting helper', function () {
-        expect(site_setting('site_name'))->toBe('Laravel Starter Kit');
+        expect(site_setting('site_name'))->toBe('LKEU RAPI');
         expect(site_setting('nonexistent', 'default'))->toBe('default');
     });
 

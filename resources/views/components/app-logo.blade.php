@@ -1,6 +1,6 @@
 @php
     $logo = site_setting('logo');
-    $siteName = site_setting('site_name', 'Laravel Starter Kit');
+    $siteName = site_setting('site_name', 'LKEU RAPI');
 @endphp
 
 @if ($logo)
