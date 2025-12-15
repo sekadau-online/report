@@ -61,4 +61,20 @@ class User extends Authenticatable
             ->map(fn ($word) => Str::substr($word, 0, 1))
             ->implode('');
     }
+
+    /**
+     * Get the financial reports for the user.
+     */
+    public function financialReports(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(FinancialReport::class);
+    }
+
+    /**
+     * Get the share links for the user.
+     */
+    public function shareLinks(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ShareLink::class);
+    }
 }

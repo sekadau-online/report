@@ -15,6 +15,7 @@
                 <flux:navlist.group :heading="__('Platform')" class="grid">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
                     <flux:navlist.item icon="banknotes" :href="route('financial-reports.index')" :current="request()->routeIs('financial-reports.*')" wire:navigate>{{ __('Laporan Keuangan') }}</flux:navlist.item>
+                    <flux:navlist.item icon="share" :href="route('share-links.index')" :current="request()->routeIs('share-links.*')" wire:navigate>{{ __('Share Links') }}</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 

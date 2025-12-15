@@ -43,4 +43,18 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('financial-reports/create', 'financial-reports.create')->name('financial-reports.create');
     Volt::route('financial-reports/{report}', 'financial-reports.show')->name('financial-reports.show');
     Volt::route('financial-reports/{report}/edit', 'financial-reports.edit')->name('financial-reports.edit');
+
+    // Share Links Routes
+    Volt::route('share-links', 'share-links.index')->name('share-links.index');
+    Volt::route('share-links/create', 'share-links.create')->name('share-links.create');
+    Volt::route('share-links/{shareLink}/edit', 'share-links.edit')->name('share-links.edit');
 });
+
+// Public Share Link Routes (no auth required)
+Route::get('s/{token}', function (string $token) {
+    return app(\App\Http\Controllers\ShareLinkController::class)->show($token);
+})->name('share.view');
+
+Route::post('s/{token}', function (string $token, \Illuminate\Http\Request $request) {
+    return app(\App\Http\Controllers\ShareLinkController::class)->authenticate($token, $request);
+})->name('share.authenticate');

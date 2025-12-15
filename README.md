@@ -30,6 +30,14 @@ LKEU-RAPI adalah aplikasi pencatatan dan pelaporan keuangan berbasis web yang di
 - ✅ Halaman welcome yang dapat dikonfigurasi
 - ✅ Dukungan dark mode
 
+### Share Links
+- ✅ Buat link berbagi untuk laporan keuangan
+- ✅ Proteksi password (opsional)
+- ✅ Tanggal kedaluwarsa (opsional)
+- ✅ Statistik view count dan last viewed
+- ✅ Toggle aktif/nonaktif link
+- ✅ Regenerate token
+
 ### Keamanan
 - ✅ Autentikasi user
 - ✅ Two-Factor Authentication (2FA)
@@ -141,7 +149,9 @@ resources/views/
 ├── livewire/              # Livewire/Volt components
 │   ├── auth/              # Authentication pages
 │   ├── financial-reports/ # Financial report pages
-│   └── settings/          # Settings pages
+│   ├── settings/          # Settings pages
+│   └── share-links/       # Share links pages
+├── share/                 # Public share views
 └── partials/              # Partial views
 
 tests/
@@ -199,6 +209,16 @@ Pengaturan situs dapat dikonfigurasi melalui:
 | POST | `/financial-reports/export` | Download export |
 | GET | `/financial-reports/import` | Import form |
 | POST | `/financial-reports/import` | Process import |
+
+### Share Links
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/share-links` | List user's share links |
+| GET | `/share-links/create` | Create form |
+| GET | `/share-links/{id}/edit` | Edit form |
+| GET | `/s/{token}` | Public view (no auth) |
+| POST | `/s/{token}` | Password authentication |
 
 ## 🤝 Kontribusi
 
