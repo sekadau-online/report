@@ -5,6 +5,19 @@
         <!-- Session Status -->
         <x-auth-session-status class="text-center" :status="session('status')" />
 
+        @php
+            $requiresInviteCode = \App\Actions\Fortify\CreateNewUser::requiresInviteCode();
+        @endphp
+
+        @if ($requiresInviteCode)
+            <flux:callout icon="shield-check" color="amber">
+                <flux:callout.heading>{{ __('Kode Undangan Diperlukan') }}</flux:callout.heading>
+                <flux:callout.text>
+                    {{ __('Registrasi memerlukan kode 2FA dari user yang sudah terdaftar.') }}
+                </flux:callout.text>
+            </flux:callout>
+        @endif
+
         <form method="POST" action="{{ route('register.store') }}" class="flex flex-col gap-6">
             @csrf
             <!-- Name -->
@@ -51,6 +64,23 @@
                 :placeholder="__('Confirm password')"
                 viewable
             />
+
+            @if ($requiresInviteCode)
+                <!-- Invite Code (2FA from existing user) -->
+                <flux:input
+                    name="invite_code"
+                    :label="__('Kode Undangan')"
+                    :value="old('invite_code')"
+                    type="text"
+                    inputmode="numeric"
+                    pattern="[0-9]*"
+                    maxlength="6"
+                    required
+                    autocomplete="one-time-code"
+                    :placeholder="__('Masukkan 6 digit kode 2FA')"
+                    :description="__('Minta kode dari user yang sudah terdaftar')"
+                />
+            @endif
 
             <div class="flex items-center justify-end">
                 <flux:button type="submit" variant="primary" class="w-full" data-test="register-user-button">
