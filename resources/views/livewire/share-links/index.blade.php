@@ -170,9 +170,34 @@ new class extends Component {
     @script
     <script>
         $wire.on('copy-to-clipboard', ({ url }) => {
-            navigator.clipboard.writeText(url).then(() => {
+            // Fallback for non-HTTPS (navigator.clipboard requires secure context)
+            const copyToClipboard = (text) => {
+                if (navigator.clipboard && window.isSecureContext) {
+                    return navigator.clipboard.writeText(text);
+                } else {
+                    // Fallback using textarea
+                    const textArea = document.createElement('textarea');
+                    textArea.value = text;
+                    textArea.style.position = 'fixed';
+                    textArea.style.left = '-999999px';
+                    textArea.style.top = '-999999px';
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+                    return new Promise((resolve, reject) => {
+                        document.execCommand('copy') ? resolve() : reject();
+                        textArea.remove();
+                    });
+                }
+            };
+
+            copyToClipboard(url).then(() => {
                 window.dispatchEvent(new CustomEvent('copy-success', {
                     detail: { message: 'Link berhasil disalin!' }
+                }));
+            }).catch(() => {
+                window.dispatchEvent(new CustomEvent('copy-success', {
+                    detail: { message: 'Gagal menyalin link. Silakan salin manual.' }
                 }));
             });
         });
